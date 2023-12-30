@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Estoque Vendas</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      position: relative;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://ise.org.br/wp-content/uploads/2019/07/mundo-corporativo-1200x805.jpg') center/cover no-repeat fixed;
+      filter: blur(5px);
+      z-index: -1;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: transparent;
+      padding: 15px 0;
+    }
+
+    .navbar-brand {
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .navbar-nav {
+      margin-top: 10px;
+    }
+
+    .navbar-nav a {
+      color: #fff;
+      margin-right: 15px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-nav a:hover {
+      color: #007bff;
+    }
+
+    /* Formulário de Cadastro */
+    .register-form {
+      background-color: #ffffff;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+      margin: auto;
+      padding: 30px;
+      margin-top: 50px;
+    }
+
+    .register-form h2 {
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .register-form label {
+      color: #495057;
+    }
+
+    .register-form button {
+      background-color: #007bff;
+      color: #fff;
+      transition: background-color 0.3s ease;
+    }
+
+    .register-form button:hover {
+      background-color: #0056b3;
+    }
+
+    .error {
+      color: #dc3545;
+      margin-bottom: 15px;
+    }
+
+    /* Rodapé */
+    footer {
+      background-color: #343a40;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      margin-top: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Estoque Vendas</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="./index.html">Entre</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Quem Somos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Fale Conosco</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <div class="register-form">
+            <h2>Cadastro - Estoque Vendas</h2>
+            <div id="error" class="error mb-3"></div>
+            <form id="registerForm" action="/register" method="POST">
+              <div class="mb-3">
+                <label for="username" class="form-label">Usuário</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Digite seu usuário" required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Digite sua senha" required>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2023 Estoque Vendas. Todos os direitos reservados.
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username && password) {
+        fetch('/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
+        })
+          .then(response => response.text())
+          .then(data => {
+            // Trate a resposta do servidor, exiba uma mensagem ou redirecione o usuário conforme necessário
+            console.log(data);
+          })
+          .catch(error => {
+            console.error('Erro ao enviar requisição:', error);
+          });
+      } else {
+        alert('Por favor, preencha todos os campos.');
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
