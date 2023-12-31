@@ -163,8 +163,8 @@ app.post("/cadastro-vendedor", (req, res) => {
 });
 
 //Rota para página de edição do vendedor
-app.get("/edit/:id", (req, res) => {
-  const vendedorId = req.params.id;
+app.get("/edit_vendedor/:id_vendedor", (req, res) => {
+  const vendedorId = req.params.id_vendedor;
 
   // Consultar o banco de dados para obter os detalhes do vendedor
   db.query(
@@ -187,8 +187,8 @@ app.get("/edit/:id", (req, res) => {
 });
 
 //Rota para editar o vendedor
-app.post("/update/:id", (req, res) => {
-  const vendedorId = req.params.id;
+app.post("/update_vendedor/:id_vendedor", (req, res) => {
+  const vendedorId = req.params.id_vendedor;
   const { nome, telefone } = req.body;
 
   // Atualizar o banco de dados com as novas informações
@@ -200,6 +200,77 @@ app.post("/update/:id", (req, res) => {
 
       // Redirecionar para a página de listagem de vendedores após a atualização
       res.redirect("/vendedores");
+    }
+  );
+});
+
+//Rotas de clientes
+app.get("/clientes", (req, res) => {
+  //busca clientes do banco de dados
+  db.query(
+    "SELECT * FROM clientes WHERE id_usuario =" + req.session.idUser,
+    async (err, results) => {
+      if (err) throw err;
+
+      const clientes = await results;
+      res.render("clientes", { clientes_array: clientes });
+    }
+  );
+});
+
+app.post("/cadastro-cliente", (req, res) => {
+  const { nome_cliente, telefone_cliente, endereco_cliente } = req.body;
+
+  //Inserir cliente no baco de dados
+  db.query(
+    "INSERT INTO clientes (nome_cliente, telefone_cliente, endereco_cliente, id_usuario) VALUES (?, ?, ?, ?)",
+    [nome_cliente, telefone_cliente, endereco_cliente, req.session.idUser],
+    (err, results) => {
+      if (err) throw err;
+      console.log("Cliente cadastrado no banco de dados");
+      res.redirect("/clientes");
+    }
+  );
+});
+
+app.get("/edit_cliente/:id_cliente", (req, res) => {
+  const clienteId = req.params.id_cliente;
+
+  //consultar o banco de dados para obter os detalhes do cliente
+  db.query(
+    "SELECT * FROM clientes WHERE id_cliente = ?",
+    [clienteId],
+    (err, results) => {
+      if (err) throw err;
+
+      //verifica se o cliente não foi encontrado
+      if (results.length > 0) {
+        const cliente = results[0];
+        //renderiza a página de edição com os detalhes do vendedor
+        res.render("editarClientes", { cliente });
+      } else {
+        //redireciona para uma página de erro ou lidar conforme o necessário
+        res.redirect("/clientes");
+      }
+    }
+  );
+});
+
+//Rota para editar o cliente
+app.post("/update_cliente/:id_cliente", (req, res) => {
+  const clienteId = req.params.id_cliente;
+  const { nome_cliente, telefone_cliente, endereco_cliente } = req.body;
+
+  //Atualiza o banco de dados com as novas informações
+  db.query(
+    "UPDATE clientes SET nome_cliente=?, telefone_cliente=?, endereco_cliente=? WHERE id_cliente=?",
+    [nome_cliente, telefone_cliente, endereco_cliente, clienteId],
+    (err, results) => {
+      if (err) throw err;
+      console.log(err);
+
+      //Redirecionar para a página de listagem de clientes após a atualização
+      res.redirect("/clientes");
     }
   );
 });

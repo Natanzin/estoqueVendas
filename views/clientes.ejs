@@ -22,15 +22,19 @@
 
           <!-- Formulário de Cadastro -->
           <section class="mt-4">
-            <h2 class="mb-4">Cadastro de Vendedores</h2>
-            <form action="/cadastro-vendedor" method="POST">
+            <h2 class="mb-4">Cadastro de Clientes</h2>
+            <form action="/cadastro-cliente" method="POST">
               <div class="mb-3">
-                <label for="nome" class="form-label">Nome do Vendedor:</label>
-                <input type="text" id="nome" name="nome" class="form-control" required>
+                <label for="nome_cliente" class="form-label">Nome do Cliente:</label>
+                <input type="text" id="nome_cliente" name="nome_cliente" class="form-control" required>
               </div>
               <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone do Vendedor:</label>
-                <input type="text" id="telefone" name="telefone" class="form-control" required>
+                <label for="telefone_cliente" class="form-label">Telefone do Cliente:</label>
+                <input type="text" id="telefone_cliente" name="telefone_cliente" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label for="endereco_cliente" class="form-label">Endereço do Cliente:</label>
+                <input type="text" id="endereco_cliente" name="endereco_cliente" class="form-control" required>
               </div>
               <button type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
@@ -45,23 +49,27 @@
                   <th>ID</th>
                   <th>Nome</th>
                   <th>Telefone</th>
+                  <th>Endereço</th>
                   <th><span class="float-end">Ações</span></th>
                 </tr>
               </thead>
               <tbody>
-                <% vendedores_array.forEach(function(vendedor) { %>
+                <% clientes_array.forEach(function(cliente) { %>
                   <tr>
                     <td>
-                      <%= vendedor.id %>
+                      <%= cliente.id_cliente %>
                     </td>
                     <td>
-                      <%= vendedor.nome %>
+                      <%= cliente.nome_cliente %>
                     </td>
                     <td>
-                      <%= vendedor.telefone %>
+                      <%= cliente.telefone_cliente %>
                     </td>
                     <td>
-                      <a href="/edit_vendedor/<%=vendedor.id%>" class="btn btn-primary btn-sm float-end">
+                      <%= cliente.endereco_cliente %>
+                    </td>
+                    <td>
+                      <a href="/edit_cliente/<%=cliente.id_cliente%>" class="btn btn-primary btn-sm float-end">
                         <i class="fas fa-edit"></i> Editar
                       </a>
                     </td>
